@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Ludo Game</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#2c2f4a;
+color:white;
+}
+
+h1{
+margin-top:20px;
+}
+
+#board{
+width:400px;
+height:400px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(10,40px);
+grid-template-rows:repeat(10,40px);
+border:3px solid white;
+}
+
+.cell{
+border:1px solid #555;
+background:white;
+color:black;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.token{
+width:20px;
+height:20px;
+border-radius:50%;
+}
+
+.red{background:red;}
+.green{background:green;}
+.yellow{background:yellow;}
+.blue{background:blue;}
+
+button{
+margin-top:20px;
+padding:10px 25px;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>🎲 Simple Ludo Game</h1>
+
+<div id="board"></div>
+
+<h2 id="turn">Red Turn</h2>
+<div id="dice">🎲</div>
+
+<button onclick="rollDice()">Roll Dice</button>
+
+<script>
+
+const board=document.getElementById("board")
+
+for(let i=1;i<=100;i++){
+
+let cell=document.createElement("div")
+cell.classList.add("cell")
+cell.id="cell"+i
+cell.innerText=i
+
+board.appendChild(cell)
+
+}
+
+let players={
+red:1,
+green:1,
+yellow:1,
+blue:1
+}
+
+let order=["red","green","yellow","blue"]
+let turn=0
+
+function renderTokens(){
+
+document.querySelectorAll(".token").forEach(t=>t.remove())
+
+for(let player in players){
+
+let token=document.createElement("div")
+token.classList.add("token",player)
+
+let pos=players[player]
+
+document.getElementById("cell"+pos).appendChild(token)
+
+}
+
+}
+
+renderTokens()
+
+function rollDice(){
+
+let dice=Math.floor(Math.random()*6)+1
+
+document.getElementById("dice").innerText="🎲 "+dice
+
+let player=order[turn]
+
+players[player]+=dice
+
+if(players[player]>=100){
+
+alert(player+" wins!")
+location.reload()
+
+}
+
+renderTokens()
+
+turn=(turn+1)%4
+
+document.getElementById("turn").innerText=
+order[turn]+" Turn"
+
+}
+
+</script>
+
+</body>
+</html>
